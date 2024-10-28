@@ -21,7 +21,8 @@ enum class Color
   Verde,
   Azul,
   Blanco,
-  Negro
+  Negro,
+  Gris
 };
 
 class manejador_opengl
@@ -44,6 +45,9 @@ public:
   void pintar_zona_de_pintado(float porcentaje_pantalla_util);
   void obtener_tam_ventana(GLFWwindow * window, int * ancho, int * alto);
   void rotar_poligono(float* x, float* y, int numVertices, float angulo);
-  void pintar_separaciones_ejes_cuadricula(GLFWwindow * window, int nseparaciones, float porcentaje_util_pantalla);
+  //void pintar_separaciones_ejes_cuadricula(GLFWwindow * window, int nseparaciones, float porcentaje_util_pantalla);
+  void pintar_separaciones_ejes_cuadricula(GLFWwindow * window, float porcentaje_util_pantalla, float min,
+                                           float max, int intervalo_separacion);
+  float escalar(float valor, float min_real, float max_real, float min_nuevo_rango, float max_nuevo_rango);
 };
 

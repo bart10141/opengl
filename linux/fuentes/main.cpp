@@ -26,8 +26,8 @@ int main()
     //manejador.pintar_recta_de_prueba();
     //manejador.pintar_poligono_de_prueba();
     //manejador.pintar_recta_de_prueba_zona_util();
-    manejador.pintar_zona_de_pintado(0.9f);
-    manejador.pintar_separaciones_ejes_cuadricula(window, 5, 0.9f);
+    manejador.pintar_zona_de_pintado(0.8f);
+    manejador.pintar_separaciones_ejes_cuadricula(window, 0.8f, 0, 7000, 1200);
     manejador.renderizar_pantalla(window);
     manejador.procesar_eventos_entrada();
   }

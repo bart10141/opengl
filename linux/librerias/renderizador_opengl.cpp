@@ -72,6 +72,9 @@ void manejador_opengl::cambiar_color(Color color)
     case Color::Blanco:
       glColor3f(1.0f, 1.0f, 1.0f);
       break;
+    case Color::Gris:
+      glColor3f(0.75f, 0.75f, 0.75f);
+      break;
   }
 }
 
@@ -209,7 +212,7 @@ void manejador_opengl::pintar_zona_de_pintado(float fporcentaje_pantalla_util)
   this -> pintar_recta(ejeyo);
 }
 
-void manejador_opengl::pintar_separaciones_ejes_cuadricula(GLFWwindow * window, int nseparaciones, float porcentaje_util_pantalla)
+/*void manejador_opengl::pintar_separaciones_ejes_cuadricula(GLFWwindow * window, int nseparaciones, float porcentaje_util_pantalla)
 {
   Puntos recta;
   float  aux;
@@ -235,6 +238,62 @@ void manejador_opengl::pintar_separaciones_ejes_cuadricula(GLFWwindow * window, 
     recta.npuntos = 2;
     this -> pintar_recta(recta);
   }
+}*/
+
+
+void manejador_opengl::pintar_separaciones_ejes_cuadricula(GLFWwindow * window, float porcentaje_util_pantalla, float min,
+                                                           float max, int intervalo_separacion)
+{
+  Puntos recta;
+  //float  aux;
+  float porcentaje_tam_linea = 0.03f;
+
+  int numero_de_lineas = (int)(max - min) / intervalo_separacion;
+  float intervalo_separacion_escalado;
+
+  if(((int) (max - min) % intervalo_separacion) != 0)
+  {
+    numero_de_lineas += 1;
+  }
+  
+  for (int i = 1; i < numero_de_lineas; i++)
+  {
+    intervalo_separacion_escalado = this -> escalar(intervalo_separacion * i, min, max, -porcentaje_util_pantalla, porcentaje_util_pantalla);
+
+    this -> cambiar_color(Color::Negro);
+    // Eje x
+    recta.x[0] =  intervalo_separacion_escalado; 
+    recta.y[0] = -porcentaje_util_pantalla;
+    recta.x[1] =  intervalo_separacion_escalado; 
+    recta.y[1] = -porcentaje_util_pantalla - porcentaje_tam_linea;
+    recta.npuntos = 2;
+    this -> pintar_recta(recta);
+
+    // Eje y
+    recta.x[0] = -porcentaje_util_pantalla; 
+    recta.y[0] =  intervalo_separacion_escalado; 
+    recta.x[1] = -porcentaje_util_pantalla - porcentaje_tam_linea; 
+    recta.y[1] =  intervalo_separacion_escalado;
+    recta.npuntos = 2;
+    this -> pintar_recta(recta);
+
+    this -> cambiar_color(Color::Gris);
+    // Eje x cuadricula
+    recta.x[0] =  intervalo_separacion_escalado; 
+    recta.y[0] = -porcentaje_util_pantalla;
+    recta.x[1] =  intervalo_separacion_escalado; 
+    recta.y[1] =  porcentaje_util_pantalla;
+    recta.npuntos = 2;
+    this -> pintar_recta(recta);
+    
+    // Eje y cuadricula
+    recta.x[0] = -porcentaje_util_pantalla; 
+    recta.y[0] =  intervalo_separacion_escalado; 
+    recta.x[1] =  porcentaje_util_pantalla; 
+    recta.y[1] =  intervalo_separacion_escalado;
+    recta.npuntos = 2;
+    this -> pintar_recta(recta);
+  }
 }
 
 void manejador_opengl::obtener_tam_ventana(GLFWwindow * window, int * ancho, int * alto)
@@ -256,3 +315,7 @@ void manejador_opengl::rotar_poligono(float* x, float* y, int numVertices, float
     }
 }
 
+float manejador_opengl::escalar(float valor, float min_real, float max_real, float min_nuevo_rango, float max_nuevo_rango)
+{
+  return min_nuevo_rango + (valor - min_real) * (max_nuevo_rango - min_nuevo_rango) / (max_real - min_real);
+}
